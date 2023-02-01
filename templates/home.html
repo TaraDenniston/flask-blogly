@@ -13,5 +13,7 @@
         </li>
         {% endfor %}
     </ul>
-    <button action="/new-user" class="btn btn-primary">Add user</button>
-{% endblock %}
+    <form action="/new-user">
+        <button type="submit" class="btn btn-primary">Add user</button>
+    </form>
+    {% endblock %}
