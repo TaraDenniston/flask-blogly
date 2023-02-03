@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - User Details{% endblock %}
+
+{% block content %}
+    <section class="row">
+        <div class="d-block p-0"></div>
+            <div class="col-2">
+                <img src="{{user.image_url}}" alt="user-selected image" style="max-height: 200px; max-width: 200px;">
+            </div>
+            <div class="col">
+                <h1 class="my-3">{{user.first_name}} {{user.last_name}}</h1>
+                <div>
+                    <div class="d-block p-0">
+                        <form action="/new-user" class="d-inline">
+                            <button type="submit" class="btn btn-primary px-3">Edit</button>
+                        </form>
+                        <form action="/new-user" class="d-inline">
+                            <button type="submit" class="btn btn-danger px-3 mx-2">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
