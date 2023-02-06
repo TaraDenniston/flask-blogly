@@ -13,7 +13,7 @@
                 <form action="/users/{{user.id}}/edit" class="d-inline">
                     <button type="submit" class="btn btn-primary px-3">Edit</button>
                 </form>
-                <form action="/users/{{user.id}}/delete" class="d-inline">
+                <form action="/users/{{user.id}}/delete" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-danger px-3 mx-2">Delete</button>
                 </form>
             </div>
