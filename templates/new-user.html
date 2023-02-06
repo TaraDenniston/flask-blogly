@@ -4,6 +4,9 @@
 
 {% block content %}
     <h1>Create a User</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
     <form method="POST">
         <p>
             First Name:  
