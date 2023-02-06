@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Edit a User{% endblock %}
+
+{% block content %}
+    <h1>Edit a User</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
+    <form method="POST">
+        <p>
+            First Name:  
+            <input name="first_name" placeholder="Enter a first name">
+        </p>
+        <p>
+            Last Name:  
+            <input name="last_name" placeholder="Enter a last name">
+        </p>
+        <p>
+            Image URL:  
+            <input name="image_url" placeholder="Provide an image of this user">
+        </p>
+        <div class="d-inline">
+            <form method="GET" action="/users/{{user_id}}">
+                <button type="submit" class="btn btn-secondary px-3">Cancel</button>
+            </form>
+            <button type="submit" class="btn btn-primary px-3 mx-2">Save</button>
+        </div>
+    </form>    
+{% endblock %}
