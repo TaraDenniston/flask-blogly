@@ -86,3 +86,10 @@ def edit_user(user_id):
     
     return redirect(f'/users/{user.id}')
 
+@app.route('/users/<int:user_id>/delete', methods=['POST'])
+def delete_user(user_id):
+    """Delete user from database and redirect to home page"""
+    User.query.filter_by(id=user_id).delete()
+    db.session.commit()
+
+    return redirect('/users')
