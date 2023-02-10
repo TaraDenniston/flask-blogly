@@ -8,7 +8,7 @@
             <img src="{{user.image_url}}" alt="user-selected image" style="max-height: 250px; max-width: 250px;">
         </div>
         <div>
-            <h1 class="my-3">{{user.first_name}} {{user.last_name}}</h1>
+            <h1 class="my-3">{{user.full_name()}}</h1>
             <div class="d-inline p-0">
                 <form action="/users/{{user.id}}/edit" class="d-inline">
                     <button type="submit" class="btn btn-primary px-3">Edit</button>

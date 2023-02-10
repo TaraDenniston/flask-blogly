@@ -3,7 +3,7 @@
 {% block title %}Blogly - Create a New Post{% endblock %}
 
 {% block content %}
-    <h1>Add Post for {{user.first_name}} {{user.last_name}}</h1>
+    <h1>Add Post for {{user.full_name()}}</h1>
     {% for msg in get_flashed_messages() %}
         <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
     {% endfor %}
