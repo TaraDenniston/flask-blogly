@@ -13,9 +13,6 @@ class User(db.Model):
 
     __tablename__ = 'users'
 
-    def __repr__(self):
-        return f'User {self.id}: {self.first_name} {self.last_name}'
-
     id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True)
@@ -24,14 +21,17 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     image_url = db.Column(db.String, default='https://via.placeholder.com/150')
 
+    def __repr__(self):
+        return f'User {self.id}: {self.first_name} {self.last_name}'
+    
+    def full_name(self):
+        """Return a string with the user's full name"""
+        return f'{self.first_name} {self.last_name}'
 
 class Post(db.Model):
     """Post model"""
 
     __tablename__ = "posts"
-
-    def __repr__(self):
-        return f'Post {self.id}: "{self.title}" created at {self.created_at}'
 
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -45,3 +45,6 @@ class Post(db.Model):
 
     user = db.relationship('User', backref='posts')
     
+    def __repr__(self):
+        return f'Post {self.id}: "{self.title}" created at {self.created_at}'
+
