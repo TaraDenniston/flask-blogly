@@ -120,3 +120,10 @@ def add_post(user_id):
     db.session.commit()
     
     return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<int:post_id>')
+def display_post(post_id):
+    """Display a single post by a user"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user
+    return render_template("post-detail.html", post=post, user=user)
