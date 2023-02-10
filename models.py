@@ -24,7 +24,6 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     image_url = db.Column(db.String, default='https://via.placeholder.com/150')
 
-    posts = db.relationship('Post')
 
 class Post(db.Model):
     """Post model"""
@@ -44,5 +43,5 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    user = db.relationship('User')
+    user = db.relationship('User', backref='posts')
     
