@@ -57,7 +57,8 @@ def add_user():
 def display_user(user_id):
     """Show details about a single user"""
     user = User.query.get_or_404(user_id)
-    return render_template("user-detail.html", user=user)
+    posts = user.posts
+    return render_template("user-detail.html", user=user, posts=posts)
 
 @app.route('/users/<int:user_id>/edit')
 def edit_form(user_id):
