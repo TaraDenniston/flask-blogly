@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Create a New Post{% endblock %}
+
+{% block content %}
+    <h1>Add Post for {{user.first_name}} {{user.last_name}}</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
+    <form action="/users/{{user.id}}/posts/new" method="POST">
+        <p>
+            Title:  
+            <input name="title" class="form-control" placeholder="Enter a title for your post">
+        </p>
+        <p>
+            Content:  
+            <textarea name="content" class="form-control" rows="10"></textarea>
+        </p>
+        <div class="d-inline">
+            <form action="/users/{{user.id}}">
+                <button type="submit" class="btn btn-secondary px-3">Cancel</button>
+            </form>
+            <button type="submit" class="btn btn-primary px-3 mx-2">Add Post</button>
+        </div>
+    </form>    
+{% endblock %}
