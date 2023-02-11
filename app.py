@@ -127,3 +127,29 @@ def display_post(post_id):
     post = Post.query.get_or_404(post_id)
     user = post.user
     return render_template("post-detail.html", post=post, user=user)
+
+@app.route('/posts/<int:post_id>/edit')
+def edit_post_form(post_id):
+    """Display Edit Post Form"""
+    post = Post.query.get(post_id)
+    user_id = post.user.id
+    return render_template('edit-post.html', post=post, user_id=user_id)
+
+@app.route('/posts/<int:post_id>/edit', methods=['POST'])
+def edit_post(post_id):
+    """Make updates to the database for an existing post using form data"""
+    title = request.form['title']
+    content = request.form['content']
+
+    post = Post.query.get(post_id)
+
+    # Only update info for fields that were not blank
+    if title:
+        post.title = title
+    if content:
+        post.content = content
+
+    db.session.add(post)
+    db.session.commit()
+    
+    return redirect(f'posts/{post_id}')

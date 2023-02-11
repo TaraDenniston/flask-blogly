@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Edit Post "{{post.title}}"{% endblock %}
+
+{% block content %}
+    <h1>Edit Post</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
+    <form action="/posts/{{post.id}}/edit" method="POST">
+        <p>
+            Title:  
+            <input name="title" class="form-control" value="{{post.title}}">
+        </p>
+        <p>
+            Content:  
+            <textarea name="content" class="form-control" rows="10">{{post.content}}</textarea>
+        </p>
+        <p>{{user_id}}</p>
+        <div class="d-inline">
+            <form method="GET" action="/users/{{user_id}}">
+                <button type="submit" class="btn btn-secondary px-3">Cancel</button>
+            </form>
+            <button type="submit" class="btn btn-primary px-3 mx-2">Submit Changes</button>
+        </div>
+    </form>   
+{% endblock %}
