@@ -21,6 +21,8 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     image_url = db.Column(db.String, default='https://via.placeholder.com/150')
 
+    posts = db.relationship('Post', back_populates='user')
+
     def __repr__(self):
         return f'User {self.id}: {self.first_name} {self.last_name}'
     
@@ -41,9 +43,9 @@ class Post(db.Model):
     content = db.Column(db.Text,
                         nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
-    user = db.relationship('User', backref='posts')
+    user = db.relationship('User', back_populates='posts')
     
     def __repr__(self):
         return f'Post {self.id}: "{self.title}" created at {self.created_at}'
