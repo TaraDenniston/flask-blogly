@@ -16,12 +16,7 @@
             Content:  
             <textarea name="content" class="form-control" rows="10">{{post.content}}</textarea>
         </p>
-        <p>{{user_id}}</p>
-        <div class="d-inline">
-            <form method="GET" action="/users/{{user_id}}">
-                <button type="submit" class="btn btn-secondary px-3">Cancel</button>
-            </form>
-            <button type="submit" class="btn btn-primary px-3 mx-2">Submit Changes</button>
-        </div>
+        <input type="submit" formaction="/users/{{user_id}}" formmethod="GET" value="Cancel" class="btn btn-secondary px-3">
+        <button type="submit" class="btn btn-primary px-3 mx-2">Submit Changes</button>
     </form>   
 {% endblock %}
