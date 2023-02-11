@@ -132,7 +132,7 @@ def display_post(post_id):
 def edit_post_form(post_id):
     """Display Edit Post Form"""
     post = Post.query.get(post_id)
-    user_id = post.user.id
+    user_id = post.user_id
     return render_template('edit-post.html', post=post, user_id=user_id)
 
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
@@ -152,4 +152,15 @@ def edit_post(post_id):
     db.session.add(post)
     db.session.commit()
     
-    return redirect(f'posts/{post_id}')
+    return redirect(f'/posts/{post_id}')
+
+@app.route('/posts/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    """Delete post from database and redirect to user details page"""
+    post = Post.query.get(post_id)
+    user_id = post.user_id
+
+    Post.query.filter_by(id=post_id).delete()
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
