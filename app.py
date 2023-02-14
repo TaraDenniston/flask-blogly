@@ -22,7 +22,7 @@ def go_home():
 @app.route('/users')
 def home_page():
     """Show list of users""" 
-    users = User.query.all()
+    users = User.query.order_by(User.first_name).all()
     return render_template('home.html', users=users)
 
 @app.route('/users/new')
@@ -167,11 +167,44 @@ def delete_post(post_id):
 
 @app.route('/tags')
 def display_tags():
-    tags = Tag.query.all()
+    """Display a list of all tags"""
+    tags = Tag.query.order_by(Tag.name).all()
     return render_template('tags.html', tags=tags)
 
 @app.route('/tags/<int:tag_id>')
 def display_tag(tag_id):
+    """Display a tag and a list of posts that use it"""
     tag = Tag.query.get(tag_id)
     posts = tag.posts
     return render_template('tag-detail.html', tag=tag, posts=posts)
+
+@app.route('/tags/new')
+def display_new_tag_form():
+    """Display Create a Tag Form"""
+    return render_template('new-tag.html')
+
+@app.route('/tags/new', methods=['POST'])
+def create_new_tag():
+    """Add new tag to database using form data"""
+    name = request.form['name']
+
+    # If no data was submitted, flash a message to the user and redirect
+    # back to the form
+    if not name:
+        flash('Please enter a name for the tag')
+        return redirect('/tags/new')
+
+    # If a tag with the same name already exists, flash a message to the 
+    # user and redirect back to the form
+    if Tag.query.filter_by(name=name).one_or_none():
+        flash('A tag already exists by that name')
+        return redirect('/tags/new')
+
+    # Add the new tag to the database
+    new_tag = Tag(name=name)
+    db.session.add(new_tag)
+    db.session.commit()
+
+    return redirect('/tags')
+
+

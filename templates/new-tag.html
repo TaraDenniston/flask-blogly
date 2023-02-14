@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Create a Tag{% endblock %}
+
+{% block content %}
+    <h1>Create a Tag</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
+    <form method="POST">
+        <p>
+            Name:  
+            <input name="name" placeholder="Enter a name for the tag">
+        </p>
+        <input type="submit" formaction="/tags" formmethod="GET" value="Cancel" class="btn btn-secondary px-3">
+        <button class="btn btn-primary">Add</button>
+    </form>    
+{% endblock %}
