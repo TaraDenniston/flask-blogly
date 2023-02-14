@@ -31,7 +31,7 @@ class User(db.Model):
         return f'{self.first_name} {self.last_name}'
 
 class Post(db.Model):
-    """Post model"""
+    """Post model - a post is an article written by a user"""
 
     __tablename__ = "posts"
 
@@ -46,7 +46,42 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
     user = db.relationship('User', back_populates='posts')
+    tags = db.relationship('Tag', secondary='posts_tags', back_populates='posts')
     
     def __repr__(self):
         return f'Post {self.id}: "{self.title}" created at {self.created_at}'
+
+class Tag(db.Model):
+    """Tag model - a tag is a label or category"""
+
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    name = db.Column(db.String(30),
+                     unique=True,
+                     nullable=False)
+
+    posts = db.relationship('Post', secondary='posts_tags', back_populates='tags')
+
+    def __repr__(self):
+        return f'Tag {self.id}: {self.name}'
+
+class PostTag(db.Model):
+    """PostTag model - multiple tags can be connected to each post, and each 
+    post can have multiple tags"""
+
+    __tablename__ = "posts_tags"
+
+    post_id = db.Column(db.Integer, 
+                        db.ForeignKey('posts.id', ondelete='CASCADE'),
+                        primary_key=True)
+    tag_id = db.Column(db.Integer, 
+                       db.ForeignKey('tags.id', ondelete='CASCADE'),
+                       primary_key=True)
+
+
+
+    
 
