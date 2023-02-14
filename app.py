@@ -207,4 +207,31 @@ def create_new_tag():
 
     return redirect('/tags')
 
+@app.route('/tags/<int:tag_id>/edit')
+def display_edit_tag_form(tag_id):
+    """Display the form to edit a tag"""
+    tag = Tag.query.get(tag_id)
+    return render_template('edit-tag.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/edit', methods=['POST'])
+def edit_tag(tag_id):
+    name = request.form['name']
+    tag = Tag.query.get(tag_id)
+
+    # Only update info if the field was not blank
+    if name:
+        tag.name = name
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect('/tags')
+
+@app.route('/tags/<int:tag_id>/delete', methods=['POST'])
+def delete_tag(tag_id):
+    """Delete tag from database and redirect to tags page"""
+    Tag.query.filter_by(id=tag_id).delete()
+    db.session.commit()
+
+    return redirect('/tags')
 

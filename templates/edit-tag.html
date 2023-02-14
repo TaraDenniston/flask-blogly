@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Edit a Tag{% endblock %}
+
+{% block content %}
+    <h1>Edit a Tag</h1>
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-danger" style="width: 26rem;" role="alert">{{msg}}</div>
+    {% endfor %}
+    <form method="POST">
+        <p>
+            Name:  
+            <input name="name" value="{{tag.name}}">
+        </p>
+        <input type="submit" formaction="/tags/{{tag.id}}" formmethod="GET" value="Cancel" class="btn btn-secondary px-3">
+        <button type="submit" class="btn btn-primary px-3 mx-2">Save</button>
+    </form>    
+{% endblock %}
