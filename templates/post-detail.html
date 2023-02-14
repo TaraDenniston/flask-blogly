@@ -7,7 +7,12 @@
         <div>
             <h1 class="my-3">{{post.title}}</h1>
             <p>{{post.content}}</p>
-            <p><em>By {{user.full_name()}}</em></p>
+            <p><em>By {{user.full_name()}} at {{created_at}}</em></p>
+            <h6 class="mb-4">Tags 
+                {% for tag in tags %}
+                    <span class="badge bg-info">{{tag.name}}</span>
+                {% endfor %}
+            </h6>
             <div class="d-inline p-0">
                 <form action="/posts/{{post.id}}/edit" class="d-inline">
                     <button type="submit" class="btn btn-primary px-3">Edit</button>

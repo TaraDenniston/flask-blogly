@@ -126,7 +126,10 @@ def display_post(post_id):
     """Display a single post by a user"""
     post = Post.query.get_or_404(post_id)
     user = post.user
-    return render_template("post-detail.html", post=post, user=user)
+    tags = post.tags
+    created_at = post.created_at.strftime('%H:%M %p on %A %B %d, %Y')
+    return render_template("post-detail.html", post=post, user=user, \
+                           tags=tags, created_at=created_at)
 
 @app.route('/posts/<int:post_id>/edit')
 def edit_post_form(post_id):
@@ -174,7 +177,7 @@ def display_tags():
 @app.route('/tags/<int:tag_id>')
 def display_tag(tag_id):
     """Display a tag and a list of posts that use it"""
-    tag = Tag.query.get(tag_id)
+    tag = Tag.query.get_or_404(tag_id)
     posts = tag.posts
     return render_template('tag-detail.html', tag=tag, posts=posts)
 
