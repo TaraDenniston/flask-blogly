@@ -164,3 +164,8 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
+@app.route('/tags')
+def display_tags():
+    tags = Tag.query.all()
+    return render_template('tags.html', tags=tags)
