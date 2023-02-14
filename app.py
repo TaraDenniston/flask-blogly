@@ -169,3 +169,9 @@ def delete_post(post_id):
 def display_tags():
     tags = Tag.query.all()
     return render_template('tags.html', tags=tags)
+
+@app.route('/tags/<int:tag_id>')
+def display_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    posts = tag.posts
+    return render_template('tag-detail.html', tag=tag, posts=posts)
