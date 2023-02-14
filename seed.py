@@ -1,4 +1,4 @@
-from models import User, Post, db
+from models import User, Post, Tag, PostTag, db
 from app import app
 
 db.drop_all()
@@ -28,5 +28,35 @@ post3 = Post(title='Flask is Awesome', content='Yayyyyyyy!!!!!!!', user_id=2)
 db.session.add(post1)
 db.session.add(post2)
 db.session.add(post3)
+
+db.session.commit()
+
+# Create data for tags table
+tag1 = Tag(name='fun')
+tag2 = Tag(name='even more')
+tag3 = Tag(name='bloop')
+tag4 = Tag(name='zope')
+
+db.session.add(tag1)
+db.session.add(tag2)
+db.session.add(tag3)
+db.session.add(tag4)
+
+db.session.commit()
+
+# Connect tags to posts
+post_tag1 = PostTag(post_id='1', tag_id='1')
+post_tag2 = PostTag(post_id='1', tag_id='2')
+post_tag3 = PostTag(post_id='1', tag_id='3')
+post_tag4 = PostTag(post_id='1', tag_id='4')
+post_tag5 = PostTag(post_id='2', tag_id='2')
+post_tag6 = PostTag(post_id='3', tag_id='4')
+
+db.session.add(post_tag1)
+db.session.add(post_tag2)
+db.session.add(post_tag3)
+db.session.add(post_tag4)
+db.session.add(post_tag5)
+db.session.add(post_tag6)
 
 db.session.commit()
