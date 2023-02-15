@@ -16,6 +16,15 @@
             Content:  
             <textarea name="content" class="form-control" rows="10">{{post.content}}</textarea>
         </p>
+        <p>
+            Tags: 
+            {% for tag in tags %}
+            <div>
+                <input type="checkbox" name="tag_ids" value="{{tag.id}}" {% if tag in post.tags %}checked{% endif %}>
+                {{tag.name}} 
+            </div>
+            {% endfor %}
+        </p>
         <input type="submit" formaction="/users/{{user_id}}" formmethod="GET" value="Cancel" class="btn btn-secondary px-3">
         <button type="submit" class="btn btn-primary px-3 mx-2">Submit Changes</button>
     </form>   

@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, request, redirect, flash
-from models import db, connect_db, User, Post, Tag, PostTag
+from models import db, connect_db, User, Post, Tag
 
 app = Flask(__name__)
 app.app_context().push()
@@ -159,6 +159,7 @@ def edit_post(post_id):
     """Make updates to the database for an existing post using form data"""
     title = request.form['title']
     content = request.form['content']
+    tag_ids = request.form.getlist('tag_ids')
 
     post = Post.query.get(post_id)
 
@@ -167,6 +168,11 @@ def edit_post(post_id):
         post.title = title
     if content:
         post.content = content
+
+    # Add tags to the post
+    for tag_id in tag_ids:
+        tag = Tag.query.get(int(tag_id))
+        post.tags.append(tag)
 
     db.session.add(post)
     db.session.commit()
