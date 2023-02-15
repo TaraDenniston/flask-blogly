@@ -99,13 +99,15 @@ def delete_user(user_id):
 def display_post_form(user_id):
     """Display form to add a new post for the current user"""
     user = User.query.get(user_id)
-    return render_template('new-post.html', user=user)
+    tags = Tag.query.order_by(Tag.name).all()
+    return render_template('new-post.html', user=user, tags=tags)
 
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
 def add_post(user_id):
     """Add new post for current user to database using form data"""
     title = request.form['title']
     content = request.form['content']
+    tag_ids = request.form.getlist('tag_ids')
 
     # If the form was submitted with any field blank, display a message
     if not title:
@@ -115,8 +117,21 @@ def add_post(user_id):
         flash('Please enter the content for your post')
         return redirect('/users/<int:user_id>/posts/new')
 
+    # Create post and upload to database
     post = Post(title=title, content=content, user_id=user_id)
+
     db.session.add(post)
+    db.session.commit()
+
+    # Query the post just created to access the id
+    new_post = Post.query.filter_by(title=title, content=content, user_id=user_id).one()
+
+    # Add tags to the post
+    for tag_id in tag_ids:
+        tag = Tag.query.get(int(tag_id))
+        new_post.tags.append(tag)
+        db.session.add(new_post)
+
     db.session.commit()
     
     return redirect(f'/users/{user_id}')
@@ -136,7 +151,8 @@ def edit_post_form(post_id):
     """Display Edit Post Form"""
     post = Post.query.get(post_id)
     user_id = post.user_id
-    return render_template('edit-post.html', post=post, user_id=user_id)
+    tags = Tag.query.order_by(Tag.name).all()
+    return render_template('edit-post.html', post=post, user_id=user_id, tags=tags)
 
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def edit_post(post_id):
