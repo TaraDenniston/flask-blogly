@@ -47,6 +47,7 @@ class Post(db.Model):
 
     user = db.relationship('User', back_populates='posts')
     tags = db.relationship('Tag', secondary='posts_tags', back_populates='posts')
+    post_tags = db.relationship('PostTag', back_populates='post')
     
     def __repr__(self):
         return f'Post {self.id}: "{self.title}" created at {self.created_at}'
@@ -64,6 +65,7 @@ class Tag(db.Model):
                      nullable=False)
 
     posts = db.relationship('Post', secondary='posts_tags', back_populates='tags')
+    tag_posts = db.relationship('PostTag', back_populates='tag')
 
     def __repr__(self):
         return f'Tag {self.id}: {self.name}'
@@ -80,6 +82,12 @@ class PostTag(db.Model):
     tag_id = db.Column(db.Integer, 
                        db.ForeignKey('tags.id', ondelete='CASCADE'),
                        primary_key=True)
+    
+    post = db.relationship('Post', back_populates='post_tags')
+    tag = db.relationship('Tag', back_populates='tag_posts')
+
+    def __repr__(self):
+        return f'PostTag {self.post_id} ({self.post.title}), {self.tag_id} ({self.tag.name})'
 
 
 
